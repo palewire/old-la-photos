@@ -117,8 +117,7 @@ class Photo(models.Model):
         tweet = f"{self.title} {self.link}"
         status = api.PostUpdate(
             tweet,
-            media=self.image_url,
-            attachment_url=self.image_url
+            media=self.image_url
         )
         self.tweet_id = status.id
         self.save()
