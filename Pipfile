@@ -16,6 +16,7 @@ whitenoise = "*"
 requests = "*"
 bs4 = "*"
 python-dateutil = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"
