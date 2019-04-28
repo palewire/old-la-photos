@@ -34,6 +34,9 @@ class Command(BaseCommand):
             obj.description = data_dict['description']
             obj.pub_date = data_dict['pub_date']
             obj.save()
+            if not obj.image:
+                print(f"Archiving image {obj.download_url}")
+                obj.save_image()
 
     def _parse_str(self, element):
         """
