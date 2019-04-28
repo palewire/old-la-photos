@@ -1,3 +1,4 @@
+import collections
 from django.db import models
 
 
@@ -19,3 +20,22 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.title
+
+    def __dict__(self):
+        """
+        Returns this object in dict format.
+        """
+        return collections.OrderedDict([
+            ("lapl_id", self.lapl_id),
+            ("title", self.title),
+            ("pub_date", str(self.pub_date)),
+            ("description", self.description),
+            ("link", self.link),
+        ])
+
+    @property
+    def lapl_id(self):
+        """
+        Returns the unique identifier of the photo.
+        """
+        return self.link.split("/")[-1]
