@@ -30,7 +30,8 @@ class Photo(models.Model):
             ("title", self.title),
             ("pub_date", str(self.pub_date)),
             ("description", self.description),
-            ("link", self.link),
+            ("url", self.link),
+            ("download_url", self.download_url)
         ])
 
     @property
@@ -39,3 +40,10 @@ class Photo(models.Model):
         Returns the unique identifier of the photo.
         """
         return self.link.split("/")[-1]
+
+    @property
+    def download_url(self):
+        """
+        Returns the URL where a JPG file can be downloaded.
+        """
+        return f"https://tessa.lapl.org/utils/getdownloaditem/collection/photos/id/{self.lapl_id}"
