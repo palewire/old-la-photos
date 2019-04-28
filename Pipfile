@@ -19,6 +19,7 @@ python-dateutil = "*"
 pillow = "*"
 boto3 = "*"
 django-storages = "*"
+python-twitter = "*"
 
 [requires]
 python_version = "3.6"

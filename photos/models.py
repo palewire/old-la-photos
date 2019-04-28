@@ -1,8 +1,11 @@
+import twitter
 import requests
 import collections
 from io import BytesIO
 from django.db import models
+from django.conf import settings
 from django.core.files import File
+from photos.managers import PhotoManager
 
 
 class Photo(models.Model):
@@ -19,6 +22,9 @@ class Photo(models.Model):
     # Our metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    tweet_id = models.CharField(blank=True, default="", max_length=500)
+    # Managers
+    objects = PhotoManager()
 
     class Meta:
         ordering = ("-pub_date",)
@@ -78,3 +84,36 @@ class Photo(models.Model):
         """
         filename = f"{self.lapl_id}.jpg"
         self.image.save(filename, self.get_image(), save=True)
+
+    def tweeted(self):
+        """
+        Has this photo been tweeted? Returns True or False.
+        """
+        if self.tweet_id:
+            return True
+        else:
+            return False
+    tweeted.boolean = True
+
+    @property
+    def twitter_url(self):
+        """
+        Where to find the tweet.
+        """
+        return f'https://twitter.com/muckrockbot/status/{self.tweet_id}/'
+
+    def tweet(self):
+        """
+        Post this photo to Twitter.
+        """
+        if self.tweet_id or not self.image_url:
+            return False
+        api = twitter.Api(
+            consumer_key=settings.TWITTER_CONSUMER_KEY,
+            consumer_secret=settings.TWITTER_CONSUMER_SECRET,
+            access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
+            access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET
+        )
+        status = api.PostUpdate(self.title, media=self.image_url)
+        self.tweet_id = status.id
+        self.save()
