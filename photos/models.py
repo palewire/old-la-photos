@@ -114,6 +114,11 @@ class Photo(models.Model):
             access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
             access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET
         )
-        status = api.PostUpdate(self.title, media=self.image_url)
+        tweet = f"{self.title} {self.link}"
+        status = api.PostUpdate(
+            tweet,
+            media=self.image_url,
+            attachment_url=self.image_url
+        )
         self.tweet_id = status.id
         self.save()
