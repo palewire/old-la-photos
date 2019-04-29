@@ -43,7 +43,8 @@ class Photo(models.Model):
             ("description", self.description),
             ("lapl_url", self.link),
             ("download_url", self.download_url),
-            ("image_url", self.image_url)
+            ("image_url", self.image_url),
+            ("twitter_url", self.twitter_url)
         ])
 
     @property
@@ -100,7 +101,10 @@ class Photo(models.Model):
         """
         Where to find the tweet.
         """
-        return f'https://twitter.com/muckrockbot/status/{self.tweet_id}/'
+        if self.tweet_id:
+            return f'https://twitter.com/muckrockbot/status/{self.tweet_id}/'
+        else:
+            return None
 
     def tweet(self):
         """
