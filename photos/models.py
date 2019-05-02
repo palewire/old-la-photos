@@ -17,6 +17,7 @@ class Photo(models.Model):
     link = models.CharField(max_length=2000)
     description  = models.TextField(blank=True)
     pub_date = models.DateTimeField()
+    lapl_id = models.IntegerField(null=True)
     # The photo itself
     image = models.ImageField(blank=True)
     # Our metadata
@@ -47,8 +48,7 @@ class Photo(models.Model):
             ("twitter_url", self.twitter_url)
         ])
 
-    @property
-    def lapl_id(self):
+    def get_lapl_id(self):
         """
         Returns the unique identifier of the photo.
         """

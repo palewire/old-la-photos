@@ -33,6 +33,7 @@ class Command(BaseCommand):
             obj.title = data_dict['title']
             obj.description = data_dict['description']
             obj.pub_date = data_dict['pub_date']
+            obj.lapl_id = obj.get_lapl_id()
             obj.save()
             if not obj.image:
                 print(f"Archiving image {obj.download_url}")
