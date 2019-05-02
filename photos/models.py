@@ -102,7 +102,7 @@ class Photo(models.Model):
         Where to find the tweet.
         """
         if self.tweet_id:
-            return f'https://twitter.com/muckrockbot/status/{self.tweet_id}/'
+            return f'https://twitter.com/oldlaphotos/status/{self.tweet_id}/'
         else:
             return None
 
