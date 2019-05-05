@@ -11,7 +11,7 @@ class Command(BaseCommand):
         # Heroku only lets task run hourly. But we want to run every other hour.
         this_hour = timezone.now().hour
         # So we will hack it to run only every other hour
-        if hour % 2:
+        if this_hour % 2:
             # Tweet away...
             obj_list = Photo.objects.untweeted().order_by("?")
             obj = obj_list[0]
