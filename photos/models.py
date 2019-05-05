@@ -16,7 +16,6 @@ class Photo(models.Model):
     title = models.CharField(max_length=2000)
     link = models.CharField(max_length=2000)
     description  = models.TextField(blank=True)
-    pub_date = models.DateTimeField()
     lapl_id = models.IntegerField(null=True)
     # The photo itself
     image = models.ImageField(blank=True)
@@ -28,7 +27,7 @@ class Photo(models.Model):
     objects = PhotoManager()
 
     class Meta:
-        ordering = ("-pub_date",)
+        ordering = ("-lapl_id",)
 
     def __str__(self):
         return self.title
@@ -40,7 +39,6 @@ class Photo(models.Model):
         return collections.OrderedDict([
             ("lapl_id", self.lapl_id),
             ("title", self.title),
-            ("pub_date", str(self.pub_date)),
             ("description", self.description),
             ("lapl_url", self.link),
             ("download_url", self.download_url),

@@ -7,8 +7,8 @@ class Command(BaseCommand):
     help = "Make tweets at @OldLAPhotos"
 
     def handle(self, *args, **options):
-        obj_list = Photo.objects.untweeted().order_by("-pub_date")[:10]
-        for obj in obj_list:
-            print(f"Tweeting {obj}")
-            obj.tweet()
-            time.sleep(3)
+        obj_list = Photo.objects.untweeted().order_by("?")
+        obj = obj_list[0]
+        print(f"Tweeting {obj}")
+        obj.tweet()
+        time.sleep(3)

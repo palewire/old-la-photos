@@ -21,7 +21,6 @@ class Command(BaseCommand):
             data_dict = dict(
                 title=self._parse_str(item.find("title")),
                 description=self._parse_str(item.find("description")),
-                pub_date=dateparse(self._parse_str(item.find("pubdate"))),
                 link=self._parse_str(item.find("guid"))
             )
             try:
@@ -32,7 +31,6 @@ class Command(BaseCommand):
                 print(f"Creating {obj.link}")
             obj.title = data_dict['title']
             obj.description = data_dict['description']
-            obj.pub_date = data_dict['pub_date']
             obj.lapl_id = obj.get_lapl_id()
             obj.save()
             if not obj.image:
