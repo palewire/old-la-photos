@@ -20,7 +20,7 @@ class Command(BaseCommand):
         for item in item_list:
             data_dict = dict(
                 title=self._parse_str(item.find("title")),
-                description=self._parse_str(item.find("description")),
+                physical_description=self._parse_str(item.find("description")),
                 link=self._parse_str(item.find("guid"))
             )
             try:
@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 obj = Photo(link=data_dict['link'])
                 print(f"Creating {obj.link}")
             obj.title = data_dict['title']
-            obj.description = data_dict['description']
+            obj.physical_description = data_dict['physical_description']
             obj.lapl_id = obj.get_lapl_id()
             obj.save()
             if not obj.image:

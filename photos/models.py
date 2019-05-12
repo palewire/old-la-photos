@@ -15,8 +15,11 @@ class Photo(models.Model):
     # From LAPL
     title = models.CharField(max_length=2000)
     link = models.CharField(max_length=2000)
-    description  = models.TextField(blank=True)
+    physical_description = models.TextField(blank=True)
+    description = models.TextField(blank=True)
     lapl_id = models.IntegerField(null=True)
+    collection = models.CharField(max_length=2000, blank=True)
+    subcollection = models.CharField(max_length=2000, blank=True)
     # The photo itself
     image = models.ImageField(blank=True)
     # Our metadata
