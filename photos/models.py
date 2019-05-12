@@ -6,6 +6,7 @@ from django.db import models
 from django.conf import settings
 from django.core.files import File
 from photos.managers import PhotoManager
+from taggit.managers import TaggableManager
 
 
 class Photo(models.Model):
@@ -28,6 +29,7 @@ class Photo(models.Model):
     tweet_id = models.CharField(blank=True, default="", max_length=500)
     # Managers
     objects = PhotoManager()
+    tags = TaggableManager()
 
     class Meta:
         ordering = ("-lapl_id",)

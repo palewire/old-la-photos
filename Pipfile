@@ -20,6 +20,7 @@ pillow = "*"
 boto3 = "*"
 django-storages = "*"
 python-twitter = "*"
+django-taggit = "*"
 
 [requires]
 python_version = "3.6"
