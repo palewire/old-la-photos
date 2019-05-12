@@ -45,10 +45,24 @@ class Command(BaseCommand):
             obj.description = self._parse_text(soup.select("td#metadata_descra")[0])
             obj.collection = self._parse_text(soup.select("td#metadata_collec")[0])
             obj.subcollection = self._parse_text(soup.select("td#metadata_collea")[0])
+            obj.tags.add(*self._parse_list(soup.select("td#metadata_subjec")[0]))
             obj.save()
             logger.debug(f"Archiving image {obj.download_url}")
             obj.save_image()
             time.sleep(1)
+
+    def _remove_period(self, s):
+        if s[-1] == '.':
+            return s[:-1]
+        else:
+            return s
+
+    def _parse_list(self, element):
+        """
+        Parse a list from the scrape.
+        """
+        element_list = element.find_all("a")
+        return [self._remove_period(e.string.strip()) for e in element_list]
 
     def _parse_text(self, element):
         """
