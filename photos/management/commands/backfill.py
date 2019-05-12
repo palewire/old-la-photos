@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import random
 import logging
 import requests
@@ -28,7 +29,7 @@ class Command(BaseCommand):
                 Photo.objects.get(lapl_id=random_number)
             except Photo.DoesNotExist:
                 candidates.append(random_number)
-            if len(candidates) >= 5 or attempts >= 20:
+            if len(candidates) >= 25 or attempts >= 100:
                 break
         # Scrape them
         for lapl_id in candidates:
@@ -47,6 +48,7 @@ class Command(BaseCommand):
             obj.save()
             logger.debug(f"Archiving image {obj.download_url}")
             obj.save_image()
+            time.sleep(1)
 
     def _parse_text(self, element):
         """
