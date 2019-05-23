@@ -19,37 +19,42 @@ class Command(BaseCommand):
         """
         # Get some random photo ids to try.
         max_lapl_id = Photo.objects.aggregate(max=Max("lapl_id"))['max'] or 5000
-        attempts = 0
-        candidates = []
-        while True:
-            random_number = random.randrange(max_lapl_id)
-            attempts += 1
-            logger.debug(f"Making backfill attempt {attempts}")
+        id_list = set(Photo.objects.values_list("id", flat=True))
+        id_range = set(range(1, max_lapl_id+1))
+        missing_ids = id_range.difference(id_list)
+        sample_ids = random.sample(missing_ids, 25)
+        for lapl_id in sample_ids:
             try:
-                Photo.objects.get(lapl_id=random_number)
+                obj = Photo.objects.get(lapl_id=lapl_id)
+                print(f"{obj} already exists with id {lapl_id}")
+                continue
             except Photo.DoesNotExist:
-                candidates.append(random_number)
-            if len(candidates) >= 25 or attempts >= 100:
-                break
-        # Scrape them
-        for lapl_id in candidates:
-            obj = Photo(
-                link= f"https://tessa.lapl.org/cdm/ref/collection/photos/id/{lapl_id}",
-                lapl_id=lapl_id
-            )
-            logger.debug(f"Scraping {obj.link}")
-            r = requests.get(obj.link)
-            soup = BeautifulSoup(r.content, "html.parser")
-            obj.title = self._parse_text(soup.select("td#metadata_title")[0])
-            obj.physical_description = self._parse_text(soup.select("td#metadata_descri")[0])
-            obj.description = self._parse_text(soup.select("td#metadata_descra")[0])
-            obj.collection = self._parse_text(soup.select("td#metadata_collec")[0])
-            obj.subcollection = self._parse_text(soup.select("td#metadata_collea")[0])
-            obj.save()
-            obj.tags.add(*self._parse_list(soup.select("td#metadata_subjec")[0]))
-            logger.debug(f"Archiving image {obj.download_url}")
-            obj.save_image()
-            time.sleep(1)
+                # Create the object.
+                obj = Photo(
+                    link= f"https://tessa.lapl.org/cdm/ref/collection/photos/id/{lapl_id}",
+                    lapl_id=lapl_id
+                )
+
+                # Pull the data from the LAPL site
+                print(f"Scraping {obj.link}")
+                r = requests.get(obj.link)
+                soup = BeautifulSoup(r.content, "html.parser")
+
+                # Parse and save to the object
+                obj.title = self._parse_text(soup.select("td#metadata_title")[0])
+                obj.physical_description = self._parse_text(soup.select("td#metadata_descri")[0])
+                obj.description = self._parse_text(soup.select("td#metadata_descra")[0])
+                obj.collection = self._parse_text(soup.select("td#metadata_collec")[0])
+                obj.subcollection = self._parse_text(soup.select("td#metadata_collea")[0])
+                obj.save()
+
+                # Tack on the tags
+                obj.tags.add(*self._parse_list(soup.select("td#metadata_subjec")[0]))
+
+                # Save the image
+                print(f"Archiving image {obj.download_url}")
+                obj.save_image()
+                time.sleep(1)
 
     def _remove_period(self, s):
         if s[-1] == '.':
