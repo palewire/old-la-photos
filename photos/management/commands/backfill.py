@@ -25,7 +25,7 @@ class Command(BaseCommand):
         print(f"{len(id_list)} photos now in our mirror database")
         id_range = set(range(1, max_lapl_id+1))
         missing_ids = id_range.difference(id_list)
-        print(f"{len(missing_ids) potential photos yet to mirror}")
+        print(f"{len(missing_ids)} potential photos yet to mirror")
         sample_ids = random.sample(missing_ids, 25)
         for lapl_id in sample_ids:
             try:
