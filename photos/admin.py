@@ -4,5 +4,5 @@ from photos.models import Photo
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ("title", "tweeted", "collection", "subcollection")
-    list_filter = ("collection", "subcollection")
+    list_display = ("title", "tweeted", "subcollection")
+    list_filter = ("subcollection",)

@@ -17,11 +17,15 @@ class Command(BaseCommand):
         """
         Make it happen.
         """
+        print("Backfilling images")
         # Get some random photo ids to try.
         max_lapl_id = Photo.objects.aggregate(max=Max("lapl_id"))['max'] or 5000
+        print(f"{max_lapl_id} potential IDs in the source archive")
         id_list = set(Photo.objects.values_list("id", flat=True))
+        print(f"{len(id_list)} photos now in our mirror database")
         id_range = set(range(1, max_lapl_id+1))
         missing_ids = id_range.difference(id_list)
+        print(f"{len(missing_ids) potential photos yet to mirror}")
         sample_ids = random.sample(missing_ids, 25)
         for lapl_id in sample_ids:
             try:
@@ -44,7 +48,7 @@ class Command(BaseCommand):
                 obj.title = self._parse_text(soup.select("td#metadata_title")[0])
                 obj.physical_description = self._parse_text(soup.select("td#metadata_descri")[0])
                 obj.description = self._parse_text(soup.select("td#metadata_descra")[0])
-                obj.collection = self._parse_text(soup.select("td#metadata_collec")[0])
+                # obj.collection = self._parse_text(soup.select("td#metadata_collec")[0])
                 obj.subcollection = self._parse_text(soup.select("td#metadata_collea")[0])
                 obj.save()
 
