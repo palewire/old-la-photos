@@ -27,6 +27,7 @@ class Photo(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     tweet_id = models.CharField(blank=True, default="", max_length=500)
+    faces_extracted = models.BooleanField(default=False)
     # Managers
     objects = PhotoManager()
     tags = TaggableManager()
@@ -128,3 +129,15 @@ class Photo(models.Model):
         )
         self.tweet_id = status.id
         self.save()
+
+
+class Face(models.Model):
+    """
+    A face extracted from a LAPL photo.
+    """
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE)
+    x = models.FloatField()
+    y = models.FloatField()
+    width = models.FloatField()
+    height = models.FloatField()
+    image = models.ImageField(blank=True)

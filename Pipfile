@@ -21,6 +21,10 @@ boto3 = "*"
 django-storages = "*"
 python-twitter = "*"
 django-taggit = "*"
+numpy = "*"
+opencv-utils = "*"
+opencv-python = "*"
+scikit-image = "*"
 
 [requires]
 python_version = "3.6"
