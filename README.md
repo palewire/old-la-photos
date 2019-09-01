@@ -1,2 +1,3 @@
-# lapl-photo-collection-boto
-The latest photos added to the Los Angeles Public Library's photo collection
+# lapl-photo-collection-bot
+
+Automating and analyzing the Los Angeles Public Library's photo collection
