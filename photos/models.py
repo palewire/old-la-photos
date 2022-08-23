@@ -129,7 +129,7 @@ class Photo(models.Model):
         media_obj = api.UploadMediaSimple(self.image_url)
 
         # Annotate the image with alt text
-        alt_text = self.decription or self.title
+        alt_text = self.description or self.title
         api.PostMediaMetadata(media_obj, alt_text)
 
         # Post to Twitter
