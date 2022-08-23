@@ -116,17 +116,29 @@ class Photo(models.Model):
         """
         if self.tweet_id or not self.image_url:
             return False
+
+        # Connect to the Twitter API
         api = twitter.Api(
             consumer_key=settings.TWITTER_CONSUMER_KEY,
             consumer_secret=settings.TWITTER_CONSUMER_SECRET,
             access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
             access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET
         )
-        tweet = f"{self.title} {self.link}"
+
+        # Upload the image
+        media_obj = api.UploadMediaSimple(self.image_url)
+
+        # Annotate the image with alt text
+        alt_text = self.decription or self.title
+        api.PostMediaMetadata(media_obj, alt_text)
+
+        # Post to Twitter
         status = api.PostUpdate(
-            tweet,
-            media=self.image_url
+             f"{self.title} {self.link}",
+            media=media_obj
         )
+
+        # Save the tweet id
         self.tweet_id = status.id
         self.save()
 
