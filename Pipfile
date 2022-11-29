@@ -4,8 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "*"
+pytest-cov = "*"
+flake8 = "*"
+mypy = "*"
+types-requests = "*"
+pre-commit = "*"
 
 [packages]
+click = "*"
+python-twitter = "*"
 
 [requires]
 python_version = "3.9"
