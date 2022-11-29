@@ -14,7 +14,7 @@ def cli():
     """Post latest requests to Twitter."""
     # Get all photos
     csv_path = THIS_DIR / "photos.csv"
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path).sort_values("id")
     print(f"Reading in {len(df)} photos")
 
     # Filter down to the untweeted
@@ -49,7 +49,7 @@ def cli():
     # Save the tweet id
     df.loc[df.id == random_tweet["id"], "tweet_id"] = status.id
     print("Writing CSV back out")
-    df.to_csv(csv_path, index=False)
+    df.sort_values("id").to_csv(csv_path, index=False)
 
 
 if __name__ == "__main__":
