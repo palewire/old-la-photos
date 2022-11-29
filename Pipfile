@@ -6,25 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-dj-database-url = "*"
-Django = "*"
-django-heroku = "*"
-gunicorn = "*"
-psycopg2 = "*"
-pytz = "*"
-whitenoise = "*"
-requests = "*"
-bs4 = "*"
-python-dateutil = "*"
-pillow = "*"
-boto3 = "*"
-django-storages = "*"
-python-twitter = ">=3.5"
-django-taggit = "*"
-numpy = "*"
-opencv-utils = "*"
-opencv-python = "*"
-scikit-image = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.9"
