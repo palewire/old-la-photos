@@ -16,6 +16,7 @@ click = "*"
 python-twitter = "*"
 rich = "*"
 pandas = "*"
+"mastodon.py" = "*"
 
 [requires]
 python_version = "3.9"
