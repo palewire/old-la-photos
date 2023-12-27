@@ -71,11 +71,6 @@ endef
 # Commands
 #
 
-tweet: ## Tweet new data
-	$(call banner,       🐦 Tweeting 🐦)
-	@$(PYTHON) oldlaphotos.tweet
-
-
 toot: ## Toot new data
 	$(call banner,       🐘 Tooting 🐘)
 	@$(PYTHON) oldlaphotos.toot
