@@ -37,7 +37,10 @@ def cli():
     # Upload the image
     print(f"Uploading {image_path}")
     alt_text = random_img["description"] or random_img["title"]
-    media_obj = api.media_post(image_path, description=alt_text)
+    if not alt_text or pd.isnull(alt_text):
+        media_obj = api.media_post(image_path)
+    else:
+        media_obj = api.media_post(image_path, description=alt_text)
     image_path.unlink()
 
     # Post
